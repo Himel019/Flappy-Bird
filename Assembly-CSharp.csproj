@@ -56,6 +56,8 @@
      <Compile Include="Assets\Scripts\Camera Scripts\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\Collector Scripts\BackgroundCollector.cs" />
      <Compile Include="Assets\Scripts\Collector Scripts\PipeCollector.cs" />
+     <Compile Include="Assets\Scripts\Game Controller Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Game Controller Scripts\MenuController.cs" />
      <Compile Include="Assets\Scripts\Player Scripts\Player.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>E:/Unity/Flappy Bird/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

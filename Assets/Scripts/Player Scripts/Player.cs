@@ -9,15 +9,26 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D myRigidbody;
     private Animator myAnimator;
+    private AudioSource audioSource;
 
     [SerializeField]
     private float forwardSpeed = 3f;
     [SerializeField]
     private float bounceSpeed = 4f;
+
+    [SerializeField]
+    private AudioClip flapClip;
+    [SerializeField]
+    private AudioClip pointClip;
+    [SerializeField]
+    private AudioClip diedClip;
+
     private bool didFlap;
     private bool isAlive;
 
     private Button flapButton;
+
+    private int score;
 
     /// <summary>
     /// Awake is called when the script instance is being loaded.
@@ -26,12 +37,14 @@ public class Player : MonoBehaviour
     {
         myRigidbody = GetComponent<Rigidbody2D>();
         myAnimator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         if(instance == null) {
             instance = this;
         }
 
         isAlive = true;
+        score = 0;
 
         flapButton = GameObject.FindGameObjectWithTag("FlapButton").GetComponent<Button>();
         flapButton.onClick.AddListener(() => FlapTheBird());
@@ -57,6 +70,7 @@ public class Player : MonoBehaviour
             if(didFlap) {
                 didFlap = false;
                 myRigidbody.velocity = new Vector2(0f, bounceSpeed);
+                audioSource.PlayOneShot(flapClip);
                 myAnimator.SetTrigger("Flap");
             }
 
@@ -80,5 +94,22 @@ public class Player : MonoBehaviour
 
     public void FlapTheBird() {
         didFlap = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "Ground" || other.gameObject.tag == "Pipe") {
+            if(isAlive) {
+                isAlive = false;
+                audioSource.PlayOneShot(diedClip);
+                myAnimator.SetTrigger("Death");
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.tag == "PipeHolder") {
+            score++;
+            audioSource.PlayOneShot(pointClip);
+        }
     }
 }
