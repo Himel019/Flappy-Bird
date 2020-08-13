@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    private float offsetX;
+    public static float offsetX;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetCameraOffsetX();
+
     }
 
     // Update is called once per frame
@@ -26,9 +26,5 @@ public class CameraMovement : MonoBehaviour
         Vector3 temp = transform.position;
         temp.x = Player.instance.GetPositionX() + offsetX;
         transform.position = temp;
-    }
-
-    private void SetCameraOffsetX() {
-        offsetX = (transform.position.x - Player.instance.GetPositionX()) - 1f;
     }
 }

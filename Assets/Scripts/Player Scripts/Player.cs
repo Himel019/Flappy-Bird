@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
         isAlive = true;
         score = 0;
 
+        SetCameraOffsetX();
+
         flapButton = GameObject.FindGameObjectWithTag("FlapButton").GetComponent<Button>();
         flapButton.onClick.AddListener(() => FlapTheBird());
     }
@@ -88,6 +90,10 @@ public class Player : MonoBehaviour
         return transform.position.x;
     }
 
+    private void SetCameraOffsetX() {
+        CameraMovement.offsetX = (Camera.main.transform.position.x - GetPositionX()) - 1f;
+    }
+
     public bool IsAlive() {
         return isAlive;
     }
@@ -102,6 +108,7 @@ public class Player : MonoBehaviour
                 isAlive = false;
                 audioSource.PlayOneShot(diedClip);
                 myAnimator.SetTrigger("Death");
+                GameplayController.instance.PlayerDiedShowScore(score);
             }
         }
     }
@@ -109,7 +116,12 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.tag == "PipeHolder") {
             score++;
+            GameplayController.instance.SetScore(score);
             audioSource.PlayOneShot(pointClip);
         }
+    }
+
+    public int GetScore() {
+        return score;
     }
 }
