@@ -40,7 +40,11 @@ public class MenuController : MonoBehaviour
     }
 
     public void PlayGame() {
-        SceneFader.instance.FadeIn("Game");
+        SceneFader.instance.FadeIn("2_Game");
+    }
+
+    public void QuitGame() {
+        Application.Quit();
     }
 
     public void ChangeBird() {

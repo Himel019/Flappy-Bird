@@ -49,6 +49,7 @@ MonoBehaviour:
   gameOverText: {fileID: 0}
   resumeOrRestartGameButton: {fileID: 0}
   instructionsButton: {fileID: 0}
+  shareButton: {fileID: 0}
   pausePanel: {fileID: 0}
   birds:
   - {fileID: 0}

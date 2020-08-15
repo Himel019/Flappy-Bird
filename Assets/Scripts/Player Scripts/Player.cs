@@ -69,6 +69,10 @@ public class Player : MonoBehaviour
             temp.x += forwardSpeed * Time.deltaTime;
             transform.position = temp;
 
+            if(Input.GetKeyDown(KeyCode.Space)) {
+                didFlap = true;
+            }
+
             if(didFlap) {
                 didFlap = false;
                 myRigidbody.velocity = new Vector2(0f, bounceSpeed);

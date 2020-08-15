@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
+using System.IO;
 
 public class GameplayController : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class GameplayController : MonoBehaviour
     private Button resumeOrRestartGameButton;
     [SerializeField]
     private Button instructionsButton;
+    [SerializeField]
+    private Button shareButton;
 
     [SerializeField]
     private GameObject pausePanel;
@@ -33,6 +36,8 @@ public class GameplayController : MonoBehaviour
 
     [SerializeField]
     private Image medalImage;
+
+    private string shareMessage;
 
     void Awake() {
         MakeInstance();
@@ -56,6 +61,7 @@ public class GameplayController : MonoBehaviour
             if(Player.instance.IsAlive()) {
                 pausePanel.SetActive(true);
                 gameOverText.gameObject.SetActive(false);
+                shareButton.gameObject.SetActive(false);
                 endScore.text = Player.instance.GetScore().ToString();
                 bestScore.text = GameController.instance.GetHighScore().ToString();
                 Time.timeScale = 0f;
@@ -68,6 +74,12 @@ public class GameplayController : MonoBehaviour
 
     public void GoToMenuButton() {
         SceneFader.instance.FadeIn("1_MainMenu");
+
+        if(Random.Range(1, 10) < 5) {
+            UnityAdsScript.instance.ShowInterstitialAd();
+        } else {
+            UnityAdsScript.instance.ShowRewardedVideo();
+        }
     }
 
     public void ResumeGame() {
@@ -95,6 +107,7 @@ public class GameplayController : MonoBehaviour
         pausePanel.SetActive(true);
         gameOverText.gameObject.SetActive(true);
         scoreText.gameObject.SetActive(false);
+        shareButton.gameObject.SetActive(true);
 
         endScore.text = score.ToString();
 
@@ -122,5 +135,31 @@ public class GameplayController : MonoBehaviour
 
         resumeOrRestartGameButton.onClick.RemoveAllListeners();
         resumeOrRestartGameButton.onClick.AddListener(() => RestartGame());
+    }
+
+    public void ShareScore() {
+        shareMessage = "Whippersnapper scored " + scoreText.text + " points in Flappy Bird";
+
+        StartCoroutine(TakeScreenshotAndShare());
+    }
+
+    private IEnumerator TakeScreenshotAndShare()
+    {
+        yield return new WaitForEndOfFrame();
+
+        Texture2D ss = new Texture2D( Screen.width, Screen.height, TextureFormat.RGB24, false );
+        ss.ReadPixels( new Rect( 0, 0, Screen.width, Screen.height ), 0, 0 );
+        ss.Apply();
+
+        string filePath = Path.Combine( Application.temporaryCachePath, "shared img.png" );
+        File.WriteAllBytes( filePath, ss.EncodeToPNG() );
+
+        // To avoid memory leaks
+        Destroy( ss );
+
+        new NativeShare().AddFile( filePath )
+            .SetSubject( "Flappy Bird" ).SetText( shareMessage )
+            .SetCallback( ( result, shareTarget ) => Debug.Log( "Share result: " + result + ", selected app: " + shareTarget ) )
+            .Share();
     }
 }

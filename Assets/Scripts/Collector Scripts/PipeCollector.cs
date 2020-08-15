@@ -9,12 +9,22 @@ public class PipeCollector : MonoBehaviour
     [SerializeField]
     private float distanceMin = 2.5f;
     [SerializeField]
-    private float distanceMax = 4f;
+    private float distanceMax = 7f;
     private float lastPipeX;
     [SerializeField]
     private float pipeMinY = -1.83f;
     [SerializeField]
     private float pipeMaxY = 2.54f;
+    [SerializeField]
+    private float gameplayTimeBeforeCoolDown = 40f;
+    [SerializeField]
+    private float minCoolDownTime = 30f;
+    [SerializeField]
+    private float maxCoolDownTime = 60f;
+    [SerializeField]
+    private float minCoolDownX = 15f;
+    [SerializeField]
+    private float maxCoolDownX = 25f;
 
 
     /// <summary>
@@ -47,6 +57,7 @@ public class PipeCollector : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "PipeHolder") {
+            
             Vector3 temp = other.transform.position;
 
             temp.x = lastPipeX + Random.Range(distanceMin, distanceMax);
@@ -54,6 +65,12 @@ public class PipeCollector : MonoBehaviour
             
             other.transform.position = temp;
             lastPipeX = temp.x;
+
+            if(Time.realtimeSinceStartup >= gameplayTimeBeforeCoolDown) {
+                //Debug.Log("This is being executed");
+                lastPipeX += Random.Range(minCoolDownX, maxCoolDownX);
+                gameplayTimeBeforeCoolDown += Random.Range(minCoolDownTime, maxCoolDownTime);
+            }
         }
     }
 }

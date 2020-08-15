@@ -62,6 +62,13 @@
      <Compile Include="Assets\Scripts\My Coroutine Script\MyCoroutine.cs" />
      <Compile Include="Assets\Scripts\Player Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Scene Fader Scripts\SceneFader.cs" />
+     <Compile Include="Assets\Scripts\Unity Ads Script\UnityAdsScript.cs" />
+ <Reference Include="UnityEngine.Monetization">
+ <HintPath>E:/Unity/Flappy Bird/Library/ScriptAssemblies/UnityEngine.Monetization.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>E:/Unity/Flappy Bird/Library/ScriptAssemblies/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>E:/Unity/Flappy Bird/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
@@ -626,6 +633,12 @@
  <Reference Include="System.Xml.Serialization">
  <HintPath>D:/Program Files/2018.4.23f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="NativeShare.Editor.csproj">
+      <Project>{2B322AEC-C255-F869-8C65-431A1229009B}</Project>      <Name>NativeShare.Editor</Name>    </ProjectReference>
+    <ProjectReference Include="NativeShare.Runtime.csproj">
+      <Project>{139F8846-3B86-CEB4-9A48-44D504FC6A84}</Project>      <Name>NativeShare.Runtime</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

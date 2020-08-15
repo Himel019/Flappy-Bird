@@ -12,9 +12,10 @@ public class GameController : MonoBehaviour
     private const string RED_BIRD = "Red_Bird";
 
     private void Awake() {
+        //PlayerPrefs.DeleteAll();
+
         MakeInstance();
         IsTheGameStartingForTheFirstTime();
-        //PlayerPrefs.DeleteAll();
     }
 
     // Start is called before the first frame update
