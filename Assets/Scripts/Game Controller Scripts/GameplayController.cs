@@ -65,6 +65,16 @@ public class GameplayController : MonoBehaviour
                 endScore.text = Player.instance.GetScore().ToString();
                 bestScore.text = GameController.instance.GetHighScore().ToString();
                 Time.timeScale = 0f;
+                
+                float score = Player.instance.GetScore();
+
+                if(score <= 30) {
+                    medalImage.sprite = medals[0];
+                } else if(score > 30 &&  score < 60) {
+                    medalImage.sprite = medals[1];
+                } else {
+                    medalImage.sprite = medals[2];
+                }
 
                 resumeOrRestartGameButton.onClick.RemoveAllListeners();
                 resumeOrRestartGameButton.onClick.AddListener(() => ResumeGame());

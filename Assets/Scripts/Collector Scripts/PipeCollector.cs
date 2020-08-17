@@ -18,7 +18,7 @@ public class PipeCollector : MonoBehaviour
     [SerializeField]
     private float gameplayTimeBeforeCoolDown = 40f;
     [SerializeField]
-    private float minCoolDownTime = 30f;
+    private float minCoolDownTime = 50f;
     [SerializeField]
     private float maxCoolDownTime = 60f;
     [SerializeField]
