@@ -58,6 +58,18 @@ public class Player : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        if(transform.position.y >= 4.45f) {
+            Vector3 temp = transform.position;
+            temp.y = 4.45f;
+            transform.position = temp;
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {

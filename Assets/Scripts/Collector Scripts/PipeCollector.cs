@@ -11,20 +11,15 @@ public class PipeCollector : MonoBehaviour
     [SerializeField]
     private float distanceMax = 7f;
     private float lastPipeX;
+    private float lastPipeY;
     [SerializeField]
     private float pipeMinY = -1.83f;
     [SerializeField]
     private float pipeMaxY = 2.54f;
     [SerializeField]
-    private float gameplayTimeBeforeCoolDown = 40f;
+    private float minCoolDownX = 10f;
     [SerializeField]
-    private float minCoolDownTime = 50f;
-    [SerializeField]
-    private float maxCoolDownTime = 60f;
-    [SerializeField]
-    private float minCoolDownX = 15f;
-    [SerializeField]
-    private float maxCoolDownX = 25f;
+    private float maxCoolDownX = 20f;
 
 
     /// <summary>
@@ -34,9 +29,11 @@ public class PipeCollector : MonoBehaviour
     {
         pipeHolders = GameObject.FindGameObjectsWithTag("PipeHolder");
 
+        
         for(int i = 0; i < pipeHolders.Length; i++) {
             Vector3 temp = pipeHolders[i].transform.position;
-            temp.y = Random.Range(pipeMinY, pipeMaxY);
+            temp.y = GeneratePipeY(lastPipeY);
+            lastPipeY = temp.y;
             pipeHolders[i].transform.position = temp;
         }
 
@@ -47,13 +44,11 @@ public class PipeCollector : MonoBehaviour
                 lastPipeX = pipeHolders[i].transform.position.x;
             }
         }
+
+        StartCoroutine(CoolDownCoroutine());
     }
 
-    /// <summary>
-    /// Sent when another object enters a trigger collider attached to this
-    /// object (2D physics only).
-    /// </summary>
-    /// <param name="other">The other Collider2D involved in this collision.</param>
+    /// Sent when another object enters a trigger collider attached to this object (2D physics only).
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "PipeHolder") {
@@ -61,16 +56,28 @@ public class PipeCollector : MonoBehaviour
             Vector3 temp = other.transform.position;
 
             temp.x = lastPipeX + Random.Range(distanceMin, distanceMax);
-            temp.y = Random.Range(pipeMinY, pipeMaxY);
+            temp.y = GeneratePipeY(lastPipeY);
             
             other.transform.position = temp;
             lastPipeX = temp.x;
-
-            if(Time.realtimeSinceStartup >= gameplayTimeBeforeCoolDown) {
-                //Debug.Log("This is being executed");
-                lastPipeX += Random.Range(minCoolDownX, maxCoolDownX);
-                gameplayTimeBeforeCoolDown += Random.Range(minCoolDownTime, maxCoolDownTime);
-            }
         }
+    }
+
+    private IEnumerator CoolDownCoroutine() {
+        yield return new WaitForSecondsRealtime(Random.Range(15f, 25f));
+
+        lastPipeX += Random.Range(minCoolDownX, maxCoolDownX);
+
+        StartCoroutine(CoolDownCoroutine());
+    }
+
+    private float GeneratePipeY(float lastPipeY) {
+        float newY = Random.Range(lastPipeY - 2f, lastPipeY + 2f);
+
+        if(newY < pipeMaxY && newY > pipeMinY){
+            return newY;
+        }
+
+        return Random.Range(pipeMinY, pipeMaxY);
     }
 }

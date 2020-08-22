@@ -2701,11 +2701,8 @@ MonoBehaviour:
   distanceMax: 6
   pipeMinY: -1.83
   pipeMaxY: 2.54
-  gameplayTimeBeforeCoolDown: 40
-  minCoolDownTime: 30
-  maxCoolDownTime: 60
-  minCoolDownX: 15
-  maxCoolDownX: 25
+  minCoolDownX: 10
+  maxCoolDownX: 20
 --- !u!61 &913504521
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6672,6 +6669,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Flappy Bird Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 2143273145649642601, guid: 79144a342b33f384aac043a33ec25ebb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2143273145649642602, guid: 79144a342b33f384aac043a33ec25ebb,
         type: 3}
